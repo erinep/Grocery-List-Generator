@@ -4,20 +4,35 @@ def menu_fn(my_recipes):
     def print_recipes():
     # print recipe options
         print(f"\nRECIPE LIST")
+        count = 1
         for r in my_recipes:
-            print(f"[{'x' if my_recipes[r] else ' '}] {r}")
+            print(f" {count}. [{'x' if r["is_in_cart"] else ' '}] {r["name"]}")
+            count += 1
 
     print(f"\nPlease select recipes to add to your cart")
 
     # loop while user selects the recipes they want
     while (True):
         print_recipes()
-        usr_input = input(f"\nenter recipe name (enter 'c' to checkout): ")
+        usr_input = input(f"\nenter recipe number (or 'c' to checkout): ")
 
         if usr_input.lower() in ['c']:
             break
         
-        if usr_input in my_recipes.keys():
-            my_recipes[usr_input] =  True
-        else: 
-            print('item not found. Please try again')
+        try: 
+            usr_input_number = int(usr_input)
+            if usr_input_number in range(1, len(my_recipes)+1):
+                my_recipes[usr_input_number -1]["is_in_cart"] =  True
+            else:
+                print('invalid item. Please try again')
+
+
+        except e:
+            print(traceback.format_exc())
+
+def ppl_count():
+    user_input =  input(f"\nHow many people? (2 or 4) ")
+    while (user_input not in ['2', '4']):
+        print("invalid input...")
+        user_input =  input(f"\nHow many people? (2 or 4) ")
+    return user_input

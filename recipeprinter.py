@@ -1,11 +1,11 @@
 from io import StringIO
 import psycopg2
 from psycopg2 import sql
-from datetime import date
-from menu import menu_fn
+from datetime import datetime 
+from menu import menu_fn, ppl_count
 
 output = StringIO("")        # store terminal outputs here
-current_date = date.today()
+current_date = datetime.now().strftime("%Y-%m-%d")
 file_name = f"shopping_list_{current_date}.txt"
 
 # Connect to your PostgreSQL database
@@ -23,44 +23,68 @@ cur = connection.cursor()
 cur.execute("SELECT * FROM recipes")
 recipes = cur.fetchall()
 
-# create hashmap containing recipes keys 
-recipe_map = {}
+# create list of dictionaries containing recipes name and state 
+recipe_list = []
 for recipe in recipes:
-    recipe_map[recipe[0]] = False
+    recipe_list.append({"name": recipe[0], "is_in_cart": False})
 
 
-menu_fn(recipe_map)
+menu_fn(recipe_list)
+ppl_count_int = ppl_count()
 
 # Build SQL Query to return recipe content
-ingredient_query = sql.SQL("SELECT * FROM ingredients WHERE {} = %s").format(
-    sql.Identifier("recipe_name")
-)
+ingredient_query = sql.SQL("""
+SELECT ingre_name, unit, sum({})
+FROM ingredients 
+WHERE recipe_name in %s
+GROUP BY ingre_name, unit
+ORDER BY ingre_name
+""").format(sql.Identifier(f"quantity_{ppl_count_int}ppl"))
 
-# query the list of for all selected recipes 
-for recipe, in_cart in recipe_map.items():
-    if in_cart:
-        cur.execute(ingredient_query, (recipe,))
-        ingredients = cur.fetchall()
-       
-        # print recipe contents
-        output.write(f"\n{recipe}\n")
-        for i in range(len(recipe)):
-            output.write("=")
-        output.write("\n")
+# create list of names of recipes in the cart
+recipes_in_cart = []
+for r in recipe_list:
+    if r["is_in_cart"]:
+        recipes_in_cart.append(r["name"])
 
-        for ingredient in ingredients:
-            i_name = ingredient[1] 
-            i_unit = ingredient[3]
-            i_qty = ingredient[4]         # index[4] for 2 ppl, index[5] for 4 ppl
-            output.write(f"{i_qty} {i_unit} {i_name}\n")
-        output.write("\n")
+# print all selected recipes
+output.write(f"list generated on {current_date}\n")
+output.write(f"serving(s) for {ppl_count_int} people\n")
+output.write(f"\nIngredients for the following:\n")
+for r in recipes_in_cart:
+    output.write(f" - {r}\n")
+
+
+# print header
+output.write(f"""\ningredient                     unit      qty
+-----------------------------------------------\n""")
+
+# query items in cart
+if recipes_in_cart:
+    cur.execute(ingredient_query, (tuple(recipes_in_cart),))
+    ingredients = cur.fetchall()
+    for i in ingredients:
+        i_name = i[0] 
+        i_unit = i[1]
+        i_qty = i[2]
+
+        output.write(f"{i_name:30} {i_unit:10}")
+        # omit decimals if value is a whole number
+        if i_qty % 1 == 0:
+            output.write(f"{i_qty:<6.0f}")   
+        else:
+            output.write(f"{i_qty:<6}") 
+        output.write(f"\n")
+else:
+    output.write("\nno items selected...\n")
 
 # save to file?
-if(input(f"\nsave to {file_name}? (y/n)").lower() == 'y'):
+if(input(f"\nsave to './{file_name}'? (y/n) ").lower() == 'y'):
     with open(file_name, 'w') as f:
         f.write(output.getvalue())
 
 # Close the output buffer
+print(f"\nplease wait... generating list...\n")
 print(output.getvalue())
 output.close()
 
