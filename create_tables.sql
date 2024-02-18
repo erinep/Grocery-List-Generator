@@ -1,6 +1,5 @@
 -- remove old tables
-DROP TABLE IF EXISTS public.test_table, public.recipes, public.ingredients, public.test_table;;
-
+DROP TABLE IF EXISTS public.ingredient_entry, public.ingredient,  public.ingredient_type, public.recipes;
 
 -- CREATE recipes table
 CREATE TABLE IF NOT EXISTS public.recipes
@@ -8,24 +7,43 @@ CREATE TABLE IF NOT EXISTS public.recipes
     recipe_name text PRIMARY KEY
 ) TABLESPACE pg_default;
 
--- CREATE ingredients table
-CREATE TABLE IF NOT EXISTS public.ingredients
+-- create ingredients categories table
+CREATE TABLE IF NOT EXISTS public.ingredient_type
 (
-	ingre_key integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    ingre_name text,
+	type_name text,
+	type_key integer PRIMARY KEY
+);
+
+-- create ingredients list
+CREATE TABLE IF NOT EXISTS public.ingredient
+(
+    ingre_name text PRIMARY KEY,
+	type_key integer,
+	FOREIGN KEY (type_key) REFERENCES public.ingredient_type(type_key)
+);
+
+-- CREATE ingredient recipe entry table
+CREATE TABLE IF NOT EXISTS public.ingredient_entry
+(
+	ingre_entry_key integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+	ingre_name text,
 	recipe_name text,
 	unit text,
 	quantity_2ppl numeric(6, 2),
 	quantity_4ppl numeric(6,2),
+	FOREIGN KEY (ingre_name) REFERENCES public.ingredient(ingre_name),
 	FOREIGN KEY (recipe_name) REFERENCES public.recipes(recipe_name)
 ) TABLESPACE pg_default;
+
+
 
 -- Give test user access
 GRANT SELECT ON ALL TABLES IN SCHEMA public TO test_user;
 
 
+
 -- INSERT recipes into tables
-INSERT INTO public.recipes(recipe_name)
+INSERT INTO public.recipes(recipe_name )
 VALUES 
 	('Chicken Bulgur Bowls'),
 	('Beef Taco Salad Bowls'),
@@ -33,11 +51,67 @@ VALUES
 	('Tangy Beef Burgers'),
 	('Lemony Beef and Orzo Bowls');
 
-
--- INSERT ingredients
-INSERT INTO public.ingredients (recipe_name, ingre_name, unit, quantity_2ppl, quantity_4ppl)
+-- INSERT ingredients types
+INSERT INTO public.ingredient_type (type_name, type_key)
+VALUES 
+	('Spices', 1),
+	('Grains', 2),
+	('Canned Goods', 3),
+	('Protein', 4),
+	('Dairy', 5),
+	('fruit and veggie', 6),
+	('Condements', 7), 
+	('Bread', 8);
+		
+-- INSERT ingredient
+INSERT into public.ingredient (ingre_name, type_key)
 VALUES
-	('Chicken Bulgur Bowls', 'Chicken Breats', '', 2, 4),
+	('Chicken Breasts', 4), 
+	('Baby Spinach', 6),
+	('Sour Cream', 5), 
+	('Mayonnaise', 7),
+	('Lemon', 6),
+	('Jalapeno', 6),
+	('Smoked Paprika Garlic Blend', 1),
+	('Bulgur Wheat', 2),
+	('Parsley', 6),
+	('Garlic', 6),
+	('Tomato', 6),
+	('Ground Beef', 4),
+	('Green Bell Pepper', 6),
+	('Guacamole', 7),
+	('Cheddar Cheese', 5),
+	('Chipotle Sauce', 7),
+	('Enchilada Spice Blend', 1),
+	('Chickpeas', 3),
+	('Shawarma Spice Blend', 1),
+	('Flatbread',8 ),
+	('Baby Tomatoes', 6),
+	('Olives', 3),
+	('White Wine Vinegar', 7),
+	('Sweet Bell Pepper', 6),
+	('Atrisan Bun', 8),
+	('Dijon Mustard', 7),
+	('Dill Pickle', 7),
+	('Red Potato', 6),
+	( 'Yellow Onion', 6),
+	( 'Panko Breadcrumbs', 7),
+	( 'Ketchup', 7),
+	( 'Orzo', 2),
+	( 'Feta Cheese', 5),
+	( 'Tomato Sauce Base', 7),
+	( 'Garlic Salt', 1),
+	( 'Zesty Garlic Blend', 1),
+	('Green Onion', 6)
+	;
+	
+	
+	
+
+-- INSERT ingredients entries in recipe
+INSERT INTO public.ingredient_entry (recipe_name, ingre_name, unit, quantity_2ppl, quantity_4ppl)
+VALUES
+	('Chicken Bulgur Bowls', 'Chicken Breasts', '', 2, 4),
 	('Chicken Bulgur Bowls', 'Baby Spinach', 'grams', 56, 113),
 	('Chicken Bulgur Bowls', 'Sour Cream', 'tbsp', 3, 6),
 	('Chicken Bulgur Bowls', 'Mayonnaise', 'tbsp', 2, 4),
@@ -65,7 +139,7 @@ VALUES
 	('Fattoush-Inspired Salad', 'Flatbread', '', 2, 4),
 	('Fattoush-Inspired Salad', 'Baby Tomatoes', 'grams', 113, 227),
 	('Fattoush-Inspired Salad', 'Parsley', 'grams', 7, 14),
-	('Fattoush-Inspired Salad', 'Mixed Olives', 'grams', 30, 60),
+	('Fattoush-Inspired Salad', 'Olives', 'grams', 30, 60),
 	('Fattoush-Inspired Salad', 'Green Onion', '', 2, 4),
 	('Fattoush-Inspired Salad', 'White Wine Vinegar', 'tbsp', 2, 4),
 	('Fattoush-Inspired Salad', 'Sweet Bell Pepper', '', 1,2),
@@ -95,6 +169,7 @@ VALUES
 
 
 -- RETURN FINAL RESULTS
-SELECT * FROM public.recipes JOIN public.ingredients ON public.recipes.recipe_name = public.ingredients.recipe_name;
-
+SELECT * FROM public.ingredient_entry as e
+JOIN public.ingredient as i ON i.ingre_name = e.ingre_name
+JOIN public.ingredient_type as t ON i.type_key = t.type_key;
 

@@ -34,11 +34,17 @@ ppl_count_int = ppl_count()
 
 # Build SQL Query to return recipe content
 ingredient_query = sql.SQL("""
-SELECT ingre_name, unit, sum({})
-FROM ingredients 
+SELECT ingredient.ingre_name, unit, sum, type.type_name
+FROM ingredient
+JOIN ingredient_type as type
+ON type.type_key = ingredient.type_key
+JOIN 
+(SELECT ingre_name, unit, sum({})
+FROM ingredient_entry
 WHERE recipe_name in %s
-GROUP BY ingre_name, unit
-ORDER BY ingre_name
+GROUP BY ingre_name, unit) as entry 
+ON ingredient.ingre_name = entry.ingre_name
+ORDER BY type.type_name;
 """).format(sql.Identifier(f"quantity_{ppl_count_int}ppl"))
 
 # create list of names of recipes in the cart
@@ -56,8 +62,8 @@ for r in recipes_in_cart:
 
 
 # print header
-output.write(f"""\ningredient                     unit      qty
------------------------------------------------\n""")
+output.write(f"""\ningredient                     unit      qty   type
+-----------------------------------------------------------\n""")
 
 # query items in cart
 if recipes_in_cart:
@@ -67,6 +73,7 @@ if recipes_in_cart:
         i_name = i[0] 
         i_unit = i[1]
         i_qty = i[2]
+        i_type = i[3]
 
         output.write(f"{i_name:30} {i_unit:10}")
         # omit decimals if value is a whole number
@@ -74,7 +81,7 @@ if recipes_in_cart:
             output.write(f"{i_qty:<6.0f}")   
         else:
             output.write(f"{i_qty:<6}") 
-        output.write(f"\n")
+        output.write(f"{i_type:10}\n")
 else:
     output.write("\nno items selected...\n")
 
