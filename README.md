@@ -62,32 +62,33 @@ please wait... generating list...
 ## Sample Output:
 
 ```
-list generated on 2024-02-17
+list generated on 2024-02-18
 serving(s) for 2 people
 
 Ingredients for the following:
  - Chicken Bulgur Bowls
  - Lemony Beef and Orzo Bowls
 
-ingredient                     unit      qty
------------------------------------------------
-Baby Spinach                   grams     112
-Baby Tomatoes                  grams     113
-Bulgur Wheat                   cups      0.50
-Chicken Breats                           2
-Feta Cheese                    cups      0.50
-Garlic                         cloves    1
-Garlic Salt                    tsp       1
-Ground Beef                    grams     250
-Jalapeno                                 1
-Lemon                                    2
-Mayonnaise                     tbsp      2
-Orzo                           grams     170
-Parsley                        grams     7
-Smoked Paprika Garlic Blend    tbsp      1
-Sour Cream                     tbsp      3
-Sweet Bell Pepper                        1
-Tomato                                   1
-Tomato Sauce Base              tbsp      2
-Zesty Garlic Blend             tbsp      1 
+ingredient                     unit      qty   type
+-----------------------------------------------------------
+Mayonnaise                     tbsp      2     Condements
+Tomato Sauce Base              tbsp      2     Condements
+Sour Cream                     tbsp      3     Dairy     
+Feta Cheese                    cups      0.50  Dairy     
+Parsley                        grams     7     fruit and veggie
+Garlic                         cloves    1     fruit and veggie
+Tomato                                   1     fruit and veggie
+Baby Tomatoes                  grams     113   fruit and veggie
+Baby Spinach                   grams     112   fruit and veggie
+Sweet Bell Pepper                        1     fruit and veggie
+Lemon                                    2     fruit and veggie
+Jalapeno                                 1     fruit and veggie
+Bulgur Wheat                   cups      0.50  Grains    
+Orzo                           grams     170   Grains    
+Chicken Breasts                          2     Protein   
+Ground Beef                    grams     250   Protein   
+Smoked Paprika Garlic Blend    tbsp      1     Spices    
+Garlic Salt                    tsp       1     Spices    
+Zesty Garlic Blend             tbsp      1     Spices    
+
 ```
