@@ -1,2 +1,4 @@
-__pycache__/*
+**/__pycache__/
+dist/*
+recipeprinter.egg-info/*
 *.txt

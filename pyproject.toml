@@ -1,0 +1,6 @@
+[project]
+name = "recipeprinter"
+version = "0.1dev"
+dependencies = [
+    "psycopg2",
+]

@@ -1,3 +1,4 @@
+
 def menu_fn(my_recipes):
     # Manage user menu selection of recipes
 
@@ -27,8 +28,8 @@ def menu_fn(my_recipes):
                 print('invalid item. Please try again')
 
 
-        except e:
-            print(traceback.format_exc())
+        except:
+            print('invalid input. Please try again')
 
 def ppl_count():
     user_input =  input(f"\nHow many people? (2 or 4) ")
