@@ -9,7 +9,7 @@ CLI tool to generate a Grocery Shopping list
 - setup your db config parameters in ./recipeprinter/__main__.py
 - run the file in one of these two ways:
     1. launch script directly via `python ./recipeprinter/__main__.py` OR
-    2. install using `python -m build & pip install <PATH-TO-WHL-FILE>`. Then launch with python -m recipeprinter
+    2. install using `python -m build & pip install <PATH-TO-WHL-FILE>`. Then launch with `python -m recipeprinter`
 
 ## Sample user input
 
