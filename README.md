@@ -5,13 +5,16 @@ CLI tool to generate a Grocery Shopping list
 ## Instructions
 
 - Use create_tables.sql file to populate your postgress server
-- run `python recipeprinter.py`
-- Selects the recipes you want and the script will output a list of what to buy
+- navigate to project root (`cd <PROJECT-ROOT>`)
+- setup your db config parameters in ./recipeprinter/__main__.py
+- run the file in one of these two ways:
+    1. launch script directly via `python ./recipeprinter/__main__.py` OR
+    2. install using `python -m build & pip install <PATH-TO-WHL-FILE>`. Then launch with python -m recipeprinter
 
 ## Sample user input
 
 ```
-> python .\recipeprinter.py
+> python .\recipeprinter\__main__.py
 
 Please select recipes to add to your cart
 
