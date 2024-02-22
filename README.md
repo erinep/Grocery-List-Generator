@@ -7,9 +7,8 @@ CLI tool to generate a Grocery Shopping list
 - Use create_tables.sql file to populate your postgress server
 - navigate to project root (`cd <PROJECT-ROOT>`)
 - setup your db config parameters in ./recipeprinter/__main__.py
-- run the file in one of these two ways:
-    1. launch script directly via `python ./recipeprinter/__main__.py` OR
-    2. install using `python -m build & pip install <PATH-TO-WHL-FILE>`. Then launch with `python -m recipeprinter`
+- Dev build commands: `pip install -e . ; python -m recipeprinter` 
+- Create python wheel using `python -m build` (and run it using: `pip install <PATH-TO-WHL-FILE> ; python -m recipeprinter`)
 
 ## Sample user input
 
