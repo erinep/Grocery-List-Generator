@@ -1,3 +1,4 @@
+# third party modules
 import psycopg2
 from psycopg2 import sql
 

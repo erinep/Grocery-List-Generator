@@ -3,31 +3,25 @@ from io import StringIO
 from datetime import datetime 
 
 # local imports
-import recipeprinter.database as database
-import recipeprinter.menu as menu
+import recipeprinter.database as db
+import recipeprinter.cli.helpers as cli_fn
 
-def run():
+def run(db_config):
     # launch CLI controller
 
     output = StringIO("")        # store terminal outputs here
     current_date = datetime.now().strftime("%Y-%m-%d")
     file_name = f"shopping_list_{current_date}.txt"
 
-    db_config = {
-        "host":"localhost",
-        "dbname":"postgres",
-        "user":"test_user",
-        "password":"password"}
-
     # setup database connection
-    with database.Database(db_config) as d:
+    with db.Database(db_config) as d:
 
         # get list of recipes from database
         all_recipes_list = d.get_recipes()
 
         # get user to select recipes
-        menu.menu_loop(all_recipes_list)
-        ppl_count_int = menu.ppl_count()
+        cli_fn.menu_loop(all_recipes_list)
+        ppl_count_int = cli_fn.ppl_count()
 
         # create list of names of recipes in the cart
         selected_recipes = []

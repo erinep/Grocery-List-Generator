@@ -1,0 +1,1 @@
+from recipeprinter.database.db_class import Database
