@@ -1,5 +1,5 @@
 
-def menu_fn(my_recipes):
+def menu_loop(my_recipes):
     # Manage user menu selection of recipes
 
     def print_recipes():
