@@ -7,7 +7,7 @@ def menu_loop(my_recipes):
         print(f"\nRECIPE LIST")
         count = 1
         for r in my_recipes:
-            print(f" {count}. [{'x' if r["is_in_cart"] else ' '}] {r["name"]}")
+            print(f" {count}. [{'x' if r['is_in_cart'] else ' '}] {r['name']}")
             count += 1
 
     print(f"\nPlease select recipes to add to your cart")

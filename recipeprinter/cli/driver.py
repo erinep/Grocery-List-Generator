@@ -49,13 +49,13 @@ def run(db_config):
     # ingredients contents
     for i in ingredients:
 
-        output.write(f"{i["name"]:30} {i["unit"]:10}")
+        output.write(f"{i['name']:30} {i['unit']:10}")
         # omit decimals if value is a whole number
         if i["qty"] % 1 == 0:
-            output.write(f"{i["qty"]:<6.0f}")   
+            output.write(f"{i['qty']:<6.0f}")   
         else:
-            output.write(f"{i["qty"]:<6}") 
-        output.write(f"{i["type"]:10}\n")
+            output.write(f"{i['qty']:<6}") 
+        output.write(f"{i['type']:10}\n")
 
 
     ##################################################

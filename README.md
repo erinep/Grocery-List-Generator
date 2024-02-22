@@ -10,6 +10,15 @@ CLI tool to generate a Grocery Shopping list
 - Dev build commands: `pip install -e . ; python -m recipeprinter` 
 - Create python wheel using `python -m build` (and run it using: `pip install <PATH-TO-WHL-FILE> ; python -m recipeprinter`)
 
+### web server (still figuring this out...)
+
+1. launch virtual environment (windows): `python -m venv venv`, `venv/scripts/activate.ps1`
+2. install this app: `pip intall .`
+3. dev server launch `flask --app precipeprinter run`
+4. install production WSGI server: `pip install waitress`
+5. launch production server on local host: `waitress-serve --host 127.0.0.1 recipeprinter:app`
+6. add NGINX or httpd reverse proxy to route to port 80 or 443
+
 ## Sample user input
 
 ```
