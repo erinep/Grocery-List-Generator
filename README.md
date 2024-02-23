@@ -31,7 +31,7 @@ SESSION_KEY="super_secret_key_phrase"
 
 ## Web server example
 
-to launch the web server use the termial command: `waitress-server --host <IP address> recipe:app`
+to launch the web server use the termial command: `waitress-server --host <IP address> recipeprinter:app`
 
 ![browser screenshot 1](./media/recipes_html.png)
 ![browser screenshot 2](./media/ingredients_html.png)
