@@ -18,8 +18,21 @@ class Database:
 
         return self
 
+    def get_recipes_list(self):
 
-    def get_recipes(self):
+        # query all recipes
+        self.cur.execute("SELECT recipe_name FROM recipes")
+        recipes = self.cur.fetchall()
+
+        # create list containing recipes name and state 
+        recipe_list = []
+        for recipe in recipes:
+            recipe_list.append(recipe[0])
+        return recipe_list
+
+    def get_recipes_dict(self):
+        # used by recipeprinter.cli to track active recipes 
+        # TODO: move this logic to the CLI module
 
         # query all recipes
         self.cur.execute("SELECT * FROM recipes")

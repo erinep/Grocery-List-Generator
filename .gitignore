@@ -3,5 +3,5 @@ dist/*
 venv/*
 build/*
 recipeprinter.egg-info/*
-
+.env
 *.txt

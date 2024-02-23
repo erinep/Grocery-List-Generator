@@ -3,17 +3,45 @@
   <head>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <title>{% block title %}{% endblock %} - Recipe Printer</title>
+
+    <script>
+      function printDiv(divId) {
+        var printContents = document.getElementById(divId).innerHTML;
+        var originalContents = document.body.innerHTML;
+    
+        document.body.innerHTML = printContents;
+    
+        window.print();
+    
+        document.body.innerHTML = originalContents;
+      }
+    </script>
   </head>
+
   <body>
-    <div id="header">
-      <ul>
-        <li><a href="{{ url_for('home') }}">home</a></li>
-        <li><a href="{{ url_for('about') }}">about</a></li>
-      </ul>
-    </div>
-    <div id="content">{% block content %}{% endblock %}</div>
-    <div id="footer">
-      &copy; Copyright 2024 by <a href="https://www.github.com/erinep"> Erinep</a>
-    </div>
+    <div id="page-container">
+
+        <div id="nav-bar">
+          <ul>
+            <div id="logo">
+              <li> <a href="{{url_for('home')}}">Erin's Grocery List Generator</a></li>
+            </div>
+            <div id='links'>
+              <li><a href="{{ url_for('recipes') }}">select recipes</a></li>
+              <li><a href="{{ url_for('ingredients') }}">see ingredients</a></li>
+            </div>
+          </ul>
+        </div>
+
+        
+        <div id="content">{% block content %}{% endblock %}</div>
+
+      <footer>
+        <p>
+          &copy; Copyright 2024 by <a href="https://www.github.com/erinep"> Erinep</a>
+        </p>
+      </footer>
+
+    </div> 
   </body>
 </html>

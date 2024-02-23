@@ -1,0 +1,46 @@
+{% extends 'layout.html' %}
+
+{% block title %}Ingredients{% endblock %}
+
+{% block content %}
+
+<div id="report">
+    <div id='header' style="display: flex; justify-content: space-between;">
+        <h2>Grocery List</h2>
+        <input type="submit" onClick="printDiv('report')" value="print">
+    </div>
+
+    <p>serving(s) for {{qty}} people</p>
+    <h3>Selected Recipes:</h3>
+    <ul>
+        {% if recipes %}
+        {% for r in recipes%}
+            <li>{{r}}</li>
+        {%endfor%}
+        {%endif%}
+    </ul>
+    <h3>Ingredients:</h3>
+    <table style="width:100%; text-align: left;">
+        <tr>
+                <th>Name</th>
+                <th>Unit</th>
+                <th>Quantity</th>
+                <th>Type</th>
+        </tr>
+        <tbody>
+            {% if ingredients%}
+            {% for i in ingredients %}
+                <tr>
+                    <td>{{i.name}}</td>
+                    <td>{{i.unit}}</td>
+                    <td>{{i.qty}}</td>
+                    <td>{{i.type}}</td>
+                </tr>
+            {% endfor %}
+            {% endif%}
+        </tbody>
+    </table>
+
+</div>
+
+{% endblock %}

@@ -16,8 +16,8 @@ def run(db_config):
     # setup database connection
     with db.Database(db_config) as d:
 
-        # get list of recipes from database
-        all_recipes_list = d.get_recipes()
+        # get dict of recipes from database
+        all_recipes_list = d.get_recipes_dict()
 
         # get user to select recipes
         cli_fn.menu_loop(all_recipes_list)
