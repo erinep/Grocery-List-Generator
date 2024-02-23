@@ -1,8 +1,18 @@
 # Grocery List Generator
 
-CLI tool to generate a Grocery Shopping list
+Web server and CLI tool to generate a Grocery Shopping list
 
 ## Instructions
+
+Set config variables in a .env file. It should contain the following parameters:
+```
+DB_HOST="example-database-url"
+DB_NAME="example-database-name"
+DB_USER="example-database-user"
+DB_PASS="example-database-password"
+
+SESSION_KEY="super_secret_key_phrase"
+```
 
 - Use create_tables.sql file to populate your postgress server
 - navigate to project root (`cd <PROJECT-ROOT>`)
@@ -19,10 +29,22 @@ CLI tool to generate a Grocery Shopping list
 5. launch production server on local host: `waitress-serve --host 127.0.0.1 recipeprinter:app`
 6. add NGINX or httpd reverse proxy to route to port 80 or 443
 
-## Sample user input
+## Web server example
+
+to launch the web server use the termial command: `waitress-server --host <IP address> recipe:app`
+
+![browser screenshot 1](./media/recipes_html.png)
+![browser screenshot 2](./media/ingredients_html.png)
+
+
+## Command line interface example
+
+to lauch the program use the terminal command: `python -m recipeprinter`
+
+
+### Sample user input
 
 ```
-> python .\recipeprinter\__main__.py
 
 Please select recipes to add to your cart
 
@@ -70,7 +92,7 @@ save to './shopping_list_2024-02-17.txt'? (y/n) y
 please wait... generating list...
 ```
 
-## Sample Output:
+### Sample Output:
 
 ```
 list generated on 2024-02-18
