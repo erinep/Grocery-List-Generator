@@ -17,15 +17,18 @@ def run(db_config):
     with db.Database(db_config) as d:
 
         # get dict of recipes from database
-        all_recipes_list = d.get_recipes_dict()
+        recipe_list = d.get_recipes_list()
+        recipe_dict = []
+        for recipe in recipe_list:
+            recipe_dict.append({"name": recipe, "is_in_cart": False})
 
         # get user to select recipes
-        cli_fn.menu_loop(all_recipes_list)
+        cli_fn.menu_loop(recipe_dict)
         ppl_count_int = cli_fn.ppl_count()
 
         # create list of names of recipes in the cart
         selected_recipes = []
-        for r in all_recipes_list:
+        for r in recipe_dict:
             if r["is_in_cart"]:
                 selected_recipes.append(r["name"])
 

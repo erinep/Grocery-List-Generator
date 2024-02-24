@@ -30,20 +30,6 @@ class Database:
             recipe_list.append(recipe[0])
         return recipe_list
 
-    def get_recipes_dict(self):
-        # used by recipeprinter.cli to track active recipes 
-        # TODO: move this logic to the CLI module
-
-        # query all recipes
-        self.cur.execute("SELECT * FROM recipes")
-        recipes = self.cur.fetchall()
-
-        # create list containing recipes name and state 
-        recipe_list = []
-        for recipe in recipes:
-            recipe_list.append({"name": recipe[0], "is_in_cart": False})
-        return recipe_list
-
 
     def get_ingredients(self, recipes, ppl_count):
 
@@ -82,6 +68,23 @@ class Database:
         
         return clean_ingredients
 
+
+    def add_recipe(self, data):
+        '''
+        Add new recipe to database. data should be a dict format.
+            data = {
+                "recipe_name": STRING:recipe_name
+                "ingredients": LIST(TUPLE(STRING:ingre_name, INT:type_id))
+            }
+        '''
+
+        # INSERT INTO recipe_table 
+        # foreach ingredient in ingredients_list:
+            # if not exists:
+                # INSERT INTO ingredient_table
+            # INSERT INTO recipe_content_table
+
+    pass
 
     def __exit__(self, exc_type, exc_valu, exc_tb):
 
