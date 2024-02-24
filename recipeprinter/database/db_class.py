@@ -69,24 +69,76 @@ class Database:
         return clean_ingredients
 
 
-    def add_recipe(self, data):
+    def get_categories(self):
+        # return list of tuples with ingredient type_names and type_key
+
+
+        # Build SQL Query to return ingredient categories
+        type_query = sql.SQL("SELECT * FROM ingredient_type;")
+        self.cur.execute(type_query)
+        types = self.cur.fetchall()
+        return types
+        
+    
+    def add_ingredient(self, ingredient):
+        ''' add a single new ingredient: ingredient is a tuple of type = (ingre_name, type_key) '''
+
+
+        print('inserting ', ingredient)
+        self.cur.execute("""
+        INSERT
+        INTO ingredient (ingre_name, type_key)
+        VALUES (%s, %s)
+        ON CONFLICT DO NOTHING;""", 
+        ingredient)
+
+
+    def add_ingredients(self, ingredients):
         '''
-        Add new recipe to database. data should be a dict format.
-            data = {
-                "recipe_name": STRING:recipe_name
-                "ingredients": LIST(TUPLE(STRING:ingre_name, INT:type_id))
-            }
+        Add a list of ingredients to database
+        '''
+        for i in ingredients:
+            self.add_ingredient(i)
+
+
+    def add_recipe(self, recipe_name):
+        '''
+        Add a recipe name to the recipes table database
         '''
 
-        # INSERT INTO recipe_table 
-        # foreach ingredient in ingredients_list:
-            # if not exists:
-                # INSERT INTO ingredient_table
-            # INSERT INTO recipe_content_table
+        self.cur.execute("""
+        INSERT
+        INTO recipes (recipe_name)
+        VALUES (%s)
+        ON CONFLICT DO NOTHING;""",
+        (recipe_name,))
 
-    pass
+
+    def add_ingredient_entry(self, ingredient):
+        '''
+        Add an entry in the recipe_ingredient table
+        '''
+        self.cur.execute("""
+        INSERT
+        INTO ingredient_entry (recipe_name, ingre_name, unit, quantity_2ppl, quantity_4ppl)
+        VALUES (%s, %s, %s, %s, %s)
+        ON CONFLICT DO NOTHING;""",
+        ingredient)
+
+
+
+    def add_ingredient_enties(self, ingredients):
+        '''
+        Add a list of ingredient entries
+        '''
+        for i in ingredients:
+            self.add_ingredient_entry(i)
+  
 
     def __exit__(self, exc_type, exc_valu, exc_tb):
+
+        # commint your changes
+        self.connection.commit()
 
         # Close the cursor
         self.cur.close()

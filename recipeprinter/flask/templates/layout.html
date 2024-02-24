@@ -3,19 +3,8 @@
   <head>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <title>{% block title %}{% endblock %} - Recipe Printer</title>
+    <script src="{{url_for('static', filename='helpers.js')}}"></script>
 
-    <script>
-      function printDiv(divId) {
-        var printContents = document.getElementById(divId).innerHTML;
-        var originalContents = document.body.innerHTML;
-    
-        document.body.innerHTML = printContents;
-    
-        window.print();
-    
-        document.body.innerHTML = originalContents;
-      }
-    </script>
   </head>
 
   <body>

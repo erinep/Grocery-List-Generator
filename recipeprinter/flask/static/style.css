@@ -4,7 +4,7 @@
     --accent: rgb(54, 144, 222);
     --logo-width: 25%;
     --nav-height: 30px;
-    --footer-height: 50px;
+    --footer-height: 150px;
 }
 
 body {
@@ -69,7 +69,7 @@ input[type='submit']:hover{
         li a {
             font-size:larger;
             font-weight: bolder;
-            color: black;
+            color: var(--accent);
         }
     }
     
@@ -97,7 +97,7 @@ input[type='submit']:hover{
 
 footer {
     width: 100%;
-    margin-top: 75px;
+    height: var(--footer-height);
     text-align:center;
 
     p {
