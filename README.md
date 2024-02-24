@@ -2,44 +2,39 @@
 
 Web server and CLI tool to generate a Grocery Shopping list
 
-## Instructions
+## Setup Instructions
 
-Set config variables in a .env file. It should contain the following parameters:
-```
-DB_HOST="example-database-url"
-DB_NAME="example-database-name"
-DB_USER="example-database-user"
-DB_PASS="example-database-password"
+1. Set config variables in a .env file. It should contain the following parameters:
+    ```
+    DB_HOST="example-database-url"
+    DB_NAME="example-database-name"
+    DB_USER="example-database-user"
+    DB_PASS="example-database-password"
 
-SESSION_KEY="super_secret_key_phrase"
-```
+    SESSION_KEY="super_secret_key_phrase"
+    ```
 
-- Use create_tables.sql file to populate your postgress server
-- navigate to project root (`cd <PROJECT-ROOT>`)
-- setup your db config parameters in ./recipeprinter/__main__.py
-- Dev build commands: `pip install -e . ; python -m recipeprinter` 
-- Create python wheel using `python -m build` (and run it using: `pip install <PATH-TO-WHL-FILE> ; python -m recipeprinter`)
+2. run the create_tables.sql script to populate your postgress server
+3. create/activate a python virutal environment and install production dependencies 
 
-### web server (still figuring this out...)
+    ```ps1
+    > python -m venv venv
+    > venv/scripts/activate.ps1
+    > pip install <production wsgi server> # such as waitress, or gunicorn
+    ```
 
-1. launch virtual environment (windows): `python -m venv venv`, `venv/scripts/activate.ps1`
-2. install this app: `pip intall .`
-3. dev server launch `flask --app precipeprinter run`
-4. install production WSGI server: `pip install waitress`
-5. launch production server on local host: `waitress-serve --host 127.0.0.1 recipeprinter:app`
-6. add NGINX or httpd reverse proxy to route to port 80 or 443
+4. Install the app `pip install .`
+
 
 ## Web server example
 
-to launch the web server use the termial command: `waitress-server --host <IP address> recipe:app`
-
-![browser screenshot 1](./media/recipes_html.png)
-![browser screenshot 2](./media/ingredients_html.png)
+- launch dev server: `flask --app recipeprinter run`
+- launch production sever: `waitress-server --host <IP address> recipeprinter:app`
 
 
 ## Command line interface example
 
-to lauch the program use the terminal command: `python -m recipeprinter`
+After installing the app, you can launch it in terminal mode using this command: `python -m recipeprinter`
 
 
 ### Sample user input

@@ -45,6 +45,13 @@ def ingredients():
         i = d.get_ingredients(session.get('recipes'), session.get('qty'))
     return render_template("ingredients_page.html", recipes=session.get('recipes'), qty=session.get('qty'), ingredients=i)
     
+@app.route("/recipe-details")
+def show_recipe_details():
+    return render_template("recipe_content_page.html")
+
+@app.route("/add")
+def create_recipe():
+    return render_template("create_recipe_page.html")
 
 @app.route("/set-i", methods=["POST"] )
 def set_session_recipes():
@@ -65,3 +72,8 @@ def set_session_recipes():
         data = 'invalid content-type'
 
     return redirect(app.url_for('ingredients'))
+
+
+@app.route("/create-r", methods=["POST"])
+def create_new_recipes():
+    pass

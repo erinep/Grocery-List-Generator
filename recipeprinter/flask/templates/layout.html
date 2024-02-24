@@ -29,11 +29,13 @@
             <div id='links'>
               <li><a href="{{ url_for('recipes') }}">select recipes</a></li>
               <li><a href="{{ url_for('ingredients') }}">see ingredients</a></li>
+              <li><a href="{{ url_for('show_recipe_details') }}">show recipe details</a></li>
+              <li><a href="{{ url_for('create_recipe') }}">add new recipe</a></li>
             </div>
           </ul>
         </div>
 
-        
+
         <div id="content">{% block content %}{% endblock %}</div>
 
       <footer>
