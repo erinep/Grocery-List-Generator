@@ -1,3 +1,5 @@
+let id_counter = 1;
+
 function printDiv(divId) {
     var printContents = document.getElementById(divId).innerHTML;
     var originalContents = document.body.innerHTML;
@@ -23,8 +25,8 @@ function create_new_ingredient_row(){
     node.getElementsByClassName('ingr-text-input')[0].value = '';
     node.getElementsByClassName('space-filler')[0].remove();
 
-    // add UUIDs to inputs
-    let id = crypto.randomUUID();
+    // add id to inputs
+    let id = id_counter++;
     node.getElementsByClassName('ingr-text-input')[0].name = id + ':name';
     node.getElementsByClassName('ingr-type-input')[0].name = id + ':type';
     node.getElementsByClassName('ingr-unit-input')[0].name = id + ':unit';
