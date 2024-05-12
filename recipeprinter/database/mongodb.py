@@ -3,7 +3,7 @@ import pymongo
 class MyMongo:
 
     def __init__(self, dbconfig):
-        self.uri = f'mongodb://{dbconfig['mongo_host']}'
+        self.uri = f'mongodb://{dbconfig["mongo_host"]}'
         self.db_name = dbconfig['mongo_db_name']
 
 
@@ -24,19 +24,22 @@ class MyMongo:
 
     def insertfakedata(self):
 
-        sample_recipe = {
-            "task_list" : [
+        task_list = [
                 {"task_type": 'text', "task_content": "1,2,3", "task_id": 0},
                 {"task_type": 'text', "task_content": '4,5,6', "task_id": 1},
                 {"task_type": "other", "task_content": "7, 8, 9", "task_id": 2}
-            ],
-            "task_index": 2
-        }
+            ]
+        return self.insertlist(task_list)
 
-        # Insert example data into the collection
-        status = self.collection.insert_one(sample_recipe)
+    def insertlist(self, my_list):
 
+        status = self.collection.insert_one({
+            "task_list": my_list,
+            "task_index": len(my_list) -1
+        })
+        
         return {"insert_result": status.acknowledged}
+    
 
     def getdata(self):
 
@@ -47,7 +50,3 @@ class MyMongo:
             all_data.append(item)
 
         return { "response": all_data}
-
-        
-
-
