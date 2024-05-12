@@ -8,7 +8,7 @@ from flask_cors import CORS
 from dotenv import load_dotenv
 
 # local imports
-from recipeprinter.database import Database
+from recipeprinter.database import Database, MyMongo
 
 app = Flask(__name__, template_folder='./templates')
 CORS(app, origins=["http://localhost:5173"])
@@ -17,6 +17,8 @@ CORS(app, origins=["http://localhost:5173"])
 from dotenv import load_dotenv
 load_dotenv()
 db_config= {
+    "mongo_host": "localhost:27017",
+    "mongo_db_name": "testDB",
     "host": os.getenv("DB_HOST"),
     "dbname":os.getenv("DB_NAME"),
     "user":os.getenv("DB_USER"),
@@ -32,16 +34,18 @@ app.secret_key = os.getenv("SESSION_KEY")
 def home():
     return render_template("home_page.html")
 
-@app.route("/api/sampletasks")
-def test():
-    return { 
-        "task_list" : [
-            {"task_type": 'text', "task_content": "1,2,3", "id": 0},
-            {"task_type": 'text', "task_content": '4,5,6', "id": 1},
-            {"task_type": "other", "task_content": "7, 8, 9", "id": 2}
-        ],
-        "task_index": 2
-    }
+@app.route("/api/samplelinsert")
+def api_insert():
+    with MyMongo(db_config) as mongo:
+        response = mongo.insertfakedata()
+    return response
+
+@app.route("/api/getdata")
+def api_get():
+    with MyMongo(db_config) as mongo:
+        response = mongo.getdata()
+    return response
+
 
 @app.route("/recipes")
 def recipes():
