@@ -23,13 +23,13 @@ Web server and CLI tool to generate a Grocery Shopping list
     > pip install <production wsgi server> # such as waitress, or gunicorn
     ```
 
-4. Install the app `pip install .`
+4. Install the app `python -m pip install .`
 
 
 ## Web server example
 
-- launch dev server: `flask --app recipeprinter run`
-- launch production sever: `waitress-server --host <IP address> recipeprinter:app`
+- launch dev server: `python -m flask --app recipeprinter run`
+- launch production sever: `python -m waitress-server --host <IP address> recipeprinter:app`
 
 
 ## Command line interface example
