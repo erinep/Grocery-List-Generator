@@ -34,21 +34,31 @@ app.secret_key = os.getenv("SESSION_KEY")
 def home():
     return render_template("home_page.html")
 
-@app.route("/api/sampleinsert")
-def api_insertsample():
-    with MyMongo(db_config) as mongo:
-        response = mongo.insertfakedata()
-    return response
-
-@app.route("/api/getdata")
+@app.route("/api/get-recipes")
 def api_get():
     with MyMongo(db_config) as mongo:
-        response = mongo.getdata()
+        response = mongo.GetAllRecipes()
     return response
 
-@app.route("/api/insertlist", methods=["post"])
+@app.route("/api/create-sample-recipe")
+def api_insertsample():
+    with MyMongo(db_config) as mongo:
+        response = mongo.CreateSampleRecipe()
+    return response
+
+@app.route("/api/create-recipe", methods=["post"])
 def api_insert():
     with MyMongo(db_config) as mongo:
         data = request.get_json()
-        response = mongo.insertlist(data['task_list'])
+        response = mongo.CreateRecipe(data['task_list'])
+    return response
+
+@app.route("/api/update-recipe-tasks", methods=["post"])
+def api_update_task():
+    with MyMongo(db_config) as mongo:
+        request_json = request.get_json()
+        id = request_json['recipe_id']
+        task_list = request_json['task_list']
+
+        response = mongo.UpdateRecipe(id, task_list)
     return response

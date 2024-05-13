@@ -1,6 +1,6 @@
 # Grocery List Generator
 
-Recipes Reast API server.
+Recipes API server.
 
 ## Setup Instructions
 
@@ -14,8 +14,7 @@ Recipes Reast API server.
     SESSION_KEY="super_secret_key_phrase"
     ```
 
-2. run the create_tables.sql script to populate your postgress server
-3. create/activate a python virutal environment and install production dependencies
+2. create/activate a python virutal environment and install production dependencies
 
     ```ps1
     > python -m venv venv
@@ -23,7 +22,7 @@ Recipes Reast API server.
     > pip install <production wsgi server> # such as waitress, or gunicorn
     ```
 
-4. Install the app `python -m pip install .`
+3. Install the app `python -m pip install .`
 
 
 ## Web server example
@@ -33,17 +32,40 @@ Recipes Reast API server.
 
 ## API Endpoints
 
-### [Get] /api/sampleinsert
-    - adds sample task list to database. 
-    - returns {insert_status: true | false}
+### [Get] /api/get-recipes
+    returns: { 
+        "response": [List of recipe documents]
+    }
 
-### [Get] /api/getdata
-    - returns { "response": [...]}
+### [Get] /api/create-sample-recipe
+    - adds sample recipe document to database. 
 
+    returns: {
+        "acknowledged": true | false,
+        "recipe_id": int
+    }
 
-### [Post] /api/insertlist
-    - insert a new task list into the database
-    - body: {
+### [Post] /api/create-recipe
+    - insert a new recipe obj into the database
+
+    body: { 
         "task_list": [...]
     }
-    - returns {insert_status: true | false}
+
+    returns: { 
+        "acknowledged": true | false,
+        "recipe_id": int
+    }
+
+### [Post] /api/update-recipe-tasks
+    - overwrite recipe task_list
+
+    body: { 
+        "recipe_id" int
+        "task_list": [...]
+    }
+
+    returns: { 
+        "acknowledged": true | false,
+        "recipe_id": int
+    }

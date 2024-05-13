@@ -1,4 +1,5 @@
 import pymongo
+from bson.objectid import ObjectId
 
 class MyMongo:
 
@@ -22,31 +23,48 @@ class MyMongo:
         self.client.close()
 
 
-    def insertfakedata(self):
+    def CreateSampleRecipe(self):
 
         task_list = [
                 {"task_type": 'text', "task_content": "1,2,3", "task_id": 0},
                 {"task_type": 'text', "task_content": '4,5,6', "task_id": 1},
                 {"task_type": "other", "task_content": "7, 8, 9", "task_id": 2}
             ]
-        return self.insertlist(task_list)
+        return self.CreateRecipe(task_list)
 
-    def insertlist(self, my_list):
+    def CreateRecipe(self, my_list):
 
         status = self.collection.insert_one({
             "task_list": my_list,
-            "task_index": len(my_list) -1
+            "task_index": len(my_list) - 1
         })
+        print(status)
         
-        return {"insert_result": status.acknowledged}
+        return {
+            "acknowledged": status.acknowledged,
+            "recipe_id": str(status.inserted_id)
+        }
     
-
-    def getdata(self):
+    def GetAllRecipes(self):
 
         # Retrieve a list of objects
-        cur = self.collection.find({}, {'_id': 0})
+        cur = self.collection.find({})
         all_data = []
         for item in cur:
+            item['_id'] = str(item['_id'])
             all_data.append(item)
 
         return { "response": all_data}
+
+    def UpdateRecipe(self, recipe_id, task_list):
+        result = self.collection.update_one(
+            {"_id": ObjectId(recipe_id)},
+            { 
+                "$set": {
+                    "task_list": task_list,
+                    "task_index": len(task_list) - 1
+                }
+            }
+        )
+
+        return { "acknowledged": result.acknowledged } 
