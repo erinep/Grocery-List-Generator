@@ -37,6 +37,19 @@ Recipes API server.
         "response": [List of recipe documents]
     }
 
+
+### [Get] /api/recipe/<id>
+    returns: { 
+        "response": {
+            "task_index": int,
+            "task_list": [
+                {task 1},
+                {task 2},
+                {task 3}
+            ]
+        }
+    }
+
 ### [Get] /api/create-sample-recipe
     - adds sample recipe document to database. 
 

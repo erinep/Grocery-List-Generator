@@ -40,6 +40,12 @@ def api_get():
         response = mongo.GetAllRecipes()
     return response
 
+@app.route("/api/recipe/<id>")
+def api_recipe(id):
+    with MyMongo(db_config) as mongo:
+        response = mongo.GetRecipe(id)
+    return response
+
 @app.route("/api/create-sample-recipe")
 def api_insertsample():
     with MyMongo(db_config) as mongo:

@@ -56,6 +56,18 @@ class MyMongo:
 
         return { "response": all_data}
 
+
+    def GetRecipe(self, id):
+
+        try:
+            obj = ObjectId(id)
+            response = self.collection.find_one({"_id": obj})
+            if (response):
+                response["_id"] = str(response["_id"])
+            return { "response": response}
+        except:
+            return { "response": None}
+
     def UpdateRecipe(self, recipe_id, task_list):
         result = self.collection.update_one(
             {"_id": ObjectId(recipe_id)},
