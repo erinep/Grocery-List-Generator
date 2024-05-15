@@ -2,9 +2,8 @@
 name = "recipeprinter"
 version = "0.1dev"
 dependencies = [
-    "psycopg2",
     "flask",
     "flask-cors",
     "python-dotenv",
-    "pymonogo"
+    "pymonogo" 
 ]

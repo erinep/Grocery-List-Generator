@@ -32,6 +32,7 @@ app.secret_key = os.getenv("SESSION_KEY")
 
 @app.route("/")
 def home():
+    print("FUUUUUCK")
     return render_template("home_page.html")
 
 @app.route("/api/get-recipes")
