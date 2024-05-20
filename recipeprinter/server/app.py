@@ -26,13 +26,16 @@ app.secret_key = os.getenv("SESSION_KEY")
 
 @app.route("/")
 def home():
-    print("FUUUUUCK")
     return render_template("home_page.html")
+
+@app.route("/test")
+def test():
+    return MyMongo(db_config).TestConnection()
 
 @app.route("/api/get-recipes")
 def api_get():
     with MyMongo(db_config) as mongo:
-        response = mongo.GetAllRecipes()
+        response = mongo.GetAljlRecipes()
     return response
 
 @app.route("/api/recipe/<id>")

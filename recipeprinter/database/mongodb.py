@@ -22,6 +22,17 @@ class MyMongo:
 
         print(exc_type)
 
+    def TestConnection(self):
+        client = pymongo.MongoClient("someInvalidURIOrNonExistantHost",
+                     connectTimeoutMS=3000,
+                     socketTimeoutMS=3000,
+                     serverSelectionTimeoutMS=3000 )
+        try:
+            client.admin.command("ping")
+            return {"server_connected": True}
+        except:
+            print("could not connect to sever")
+            return {"server_connected":  False}
 
     def CreateSampleRecipe(self):
 
@@ -39,7 +50,7 @@ class MyMongo:
             "task_index": len(my_list) - 1
         })
         print(status)
-        
+         
         return {
             "acknowledged": status.acknowledged,
             "recipe_id": str(status.inserted_id)

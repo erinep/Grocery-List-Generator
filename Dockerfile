@@ -1,4 +1,4 @@
-FROM python:3.9
+FROM python:3.9 AS env
 
 WORKDIR /app
 
@@ -12,8 +12,6 @@ COPY ./recipeprinter recipeprinter/
 
 # Define environment variables
 ENV FLASK_APP recipeprinter:app
-ENV DB_HOST localhost:27017
-ENV DB_NAME testDB
 
 
 # Run the flask app within docker. 
