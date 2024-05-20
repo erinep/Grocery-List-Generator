@@ -20,7 +20,7 @@ class MyMongo:
 
     def __exit__(self, exc_type, exc_valu, exc_tb):
 
-        self.client.close()
+        print(exc_type)
 
 
     def CreateSampleRecipe(self):

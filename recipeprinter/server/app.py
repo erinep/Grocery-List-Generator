@@ -5,26 +5,20 @@ import re
 # third party imports
 from flask import Flask, render_template, request, session, redirect
 from flask_cors import CORS
-from dotenv import load_dotenv
 
 # local imports
-from recipeprinter.database import Database, MyMongo
+from recipeprinter.database import MyMongo
 
 app = Flask(__name__, template_folder='./templates')
 CORS(app, origins=["http://localhost:5173"])
 
 # Setup local environments variables
-from dotenv import load_dotenv
-load_dotenv()
 db_config= {
-    "mongo_host": "localhost:27017",
-    "mongo_db_name": "testDB",
-    "host": os.getenv("DB_HOST"),
-    "dbname":os.getenv("DB_NAME"),
-    "user":os.getenv("DB_USER"),
-    "password":os.getenv("DB_PASS")
+    "mongo_host": os.environ["DB_HOST"],
+    "mongo_db_name": os.environ["DB_NAME"],
 }
 app.secret_key = os.getenv("SESSION_KEY")
+
 
 # ===================================
 #             ENDPOINTS

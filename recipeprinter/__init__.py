@@ -1,1 +1,1 @@
-from recipeprinter.flask.server import app
+from recipeprinter.server import app

@@ -1,0 +1,1 @@
+from recipeprinter.server.app import app

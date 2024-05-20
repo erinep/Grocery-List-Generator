@@ -1,9 +1,0 @@
-[project]
-name = "recipeprinter"
-version = "0.1dev"
-dependencies = [
-    "flask",
-    "flask-cors",
-    "python-dotenv",
-    "pymonogo" 
-]

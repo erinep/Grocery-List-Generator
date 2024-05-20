@@ -2,33 +2,19 @@
 
 Recipes API server.
 
-## Setup Instructions
+## Docker setup
 
-1. Set config variables in a .env file. It should contain the following parameters:
-    ```
-    DB_HOST="example-database-url"
-    DB_NAME="example-database-name"
-    DB_USER="example-database-user"
-    DB_PASS="example-database-password"
+`Docker build -t "IMAGE_NAME"`
 
-    SESSION_KEY="super_secret_key_phrase"
-    ```
-
-2. create/activate a python virutal environment and install production dependencies
-
-    ```ps1
-    > python -m venv venv
-    > venv/scripts/activate.ps1
-    > pip install <production wsgi server> # such as waitress, or gunicorn
-    ```
-
-3. Install the app `python -m pip install .`
+`Docker run -p 5000:5000 IAMGE_NAME`
 
 
-## Web server example
+## local server setup
 
-- launch dev server: `python -m flask --app recipeprinter run`
-- launch production sever: `python -m waitress-server --host <IP address> recipeprinter:app`
+- python env: `python -m venv venv; source venv/bin/activate`
+- install dependencies: `pip install -r requirements.txt`
+- set env variable: `export FLASK_APP=recipeprinter:app`
+- launch dev server: `python -m flask --debug run`
 
 ## API Endpoints
 
