@@ -3,13 +3,14 @@ from bson.objectid import ObjectId
 
 class MyMongo:
 
-    def __init__(self, dbconfig):
-        self.uri = f'mongodb://{dbconfig["mongo_host"]}'
-        self.db_name = dbconfig['mongo_db_name']
+    def __init__(self):
+        self.host = 'mongodb'
+        self.port = 27017
+        self.db_name = 'testdb'
 
 
     def __enter__(self):
-        self.client = pymongo.MongoClient(self.uri)
+        self.client = pymongo.MongoClient(host=self.host, port=self.port)
         self.db = self.client[self.db_name]
         
         # Access your collection
@@ -23,7 +24,7 @@ class MyMongo:
         print(exc_type)
 
     def TestConnection(self):
-        client = pymongo.MongoClient("someInvalidURIOrNonExistantHost",
+        client = pymongo.MongoClient(host=self.host, port=self.port,
                      connectTimeoutMS=3000,
                      socketTimeoutMS=3000,
                      serverSelectionTimeoutMS=3000 )
