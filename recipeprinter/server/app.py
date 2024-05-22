@@ -18,11 +18,11 @@ CORS(app, origins=["http://localhost:5173"])
 #             ENDPOINTS
 # ===================================
 
-@app.route("/")
+@app.route("/api")
 def home():
     return render_template("home_page.html")
 
-@app.route("/test")
+@app.route("/api/test")
 def test():
     return MyMongo().TestConnection()
 

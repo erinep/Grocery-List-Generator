@@ -25,10 +25,12 @@ Recipes API server.
 
 ## API Endpoints
 
+### [Get] /api
+    returns api webpage
 
-### [Get] /test
+### [Get] /api/test
     returns: {
-        "server_connected": True | False
+        "db_connected": True | False
     }
 
 ### [Get] /api/get-recipes

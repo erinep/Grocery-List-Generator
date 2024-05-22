@@ -30,10 +30,10 @@ class MyMongo:
                      serverSelectionTimeoutMS=3000 )
         try:
             client.admin.command("ping")
-            return {"server_connected": True}
+            return {"db_connected": True}
         except:
             print("could not connect to sever")
-            return {"server_connected":  False}
+            return {"db_connected":  False}
 
     def CreateSampleRecipe(self):
 

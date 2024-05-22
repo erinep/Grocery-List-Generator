@@ -15,4 +15,5 @@ ENV FLASK_APP recipeprinter:app
 
 # Run the flask app within docker. 
 # host=0.0.0.0 is required to share with localhost
-CMD ["python", "-m", "flask", "--debug", "run", "--host=0.0.0.0"]
+# CMD ["python", "-m", "flask", "--debug",  "run", "--host=0.0.0.0"]
+CMD ["waitress-serve", "--port=5000", "recipeprinter:app"]]
