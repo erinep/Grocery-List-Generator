@@ -13,15 +13,7 @@ Recipes API server.
 
 - python env: `python -m venv venv; source venv/bin/activate`
 - install dependencies: `pip install -r requirements.txt`
-- set env variables:
-
-    ```
-    export FLASK_APP=recipeprinter:app
-    export DB_HOST=localhost:27017
-    export DB_NAME=testdb
-    ```
-
-- launch dev server: `python -m flask --debug run`
+- launch dev server: `python -m flask --debug --app recipeprinter:app run`
 
 ## API Endpoints
 
