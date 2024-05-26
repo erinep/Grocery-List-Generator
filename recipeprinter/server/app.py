@@ -4,23 +4,16 @@ import re
 
 # third party imports
 from flask import Flask, render_template, request, session, redirect
-from flask_cors import CORS
 
 # local imports
-from recipeprinter.database import MyMongo
+frojm recipeprinter.database import MyMongo
 
-app = Flask(__name__, template_folder='./templates')
-CORS(app, origins=["http://localhost:5173"])
-
-
+app = Flask(__name__)
 
 # ===================================
 #             ENDPOINTS
 # ===================================
 
-@app.route("/api")
-def home():
-    return render_template("home_page.html")
 
 @app.route("/api/test")
 def test():
