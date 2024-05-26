@@ -17,9 +17,6 @@ Recipes API server.
 
 ## API Endpoints
 
-### [Get] /api
-    returns api webpage
-
 ### [Get] /api/test
     returns: {
         "db_connected": True | False
