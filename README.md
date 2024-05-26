@@ -22,7 +22,13 @@ Recipes API server.
         "db_connected": True | False
     }
 
-### [Get] /api/get-recipes
+### [Get] /api/recipes
+    returns: {
+        "response": list of recipe _IDs
+    }
+
+
+### [Get] /api/recipes-full
     returns: { 
         "response": [List of recipe documents]
     }

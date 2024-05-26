@@ -57,7 +57,7 @@ class MyMongo:
             "recipe_id": str(status.inserted_id)
         }
     
-    def GetAllRecipes(self):
+    def GetRecipeListFull(self):
 
         # Retrieve a list of objects
         cur = self.collection.find({})
@@ -67,6 +67,16 @@ class MyMongo:
             all_data.append(item)
 
         return { "response": all_data}
+    
+    def GetRecipeListIDs(self):
+
+        # Retrieve a list of objects
+        cur = self.collection.find({}, {'_id': 1})
+        all_data_ids = []
+        for item in cur:
+            all_data_ids.append(str(item['_id']))
+
+        return { "response": all_data_ids}
 
 
     def GetRecipe(self, id):

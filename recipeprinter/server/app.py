@@ -3,10 +3,10 @@ import os
 import re
 
 # third party imports
-from flask import Flask, render_template, request, session, redirect
+from flask import Flask, request, session, redirect
 
 # local imports
-frojm recipeprinter.database import MyMongo
+from recipeprinter.database import MyMongo
 
 app = Flask(__name__)
 
@@ -19,11 +19,18 @@ app = Flask(__name__)
 def test():
     return MyMongo().TestConnection()
 
-@app.route("/api/get-recipes")
-def api_get():
+@app.route("/api/recipes-full")
+def api_lit_recipes_full():
     with MyMongo() as mongo:
-        response = mongo.GetAllRecipes()
+        response = mongo.GetRecipeListFull()
     return response
+
+@app.route("/api/recipes")
+def api_list_recipes():
+    with MyMongo() as mongo:
+        response = mongo.GetRecipeListIDs()
+    return response
+
 
 @app.route("/api/recipe/<id>")
 def api_recipe(id):
