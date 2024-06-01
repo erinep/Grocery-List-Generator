@@ -38,9 +38,9 @@ class MyMongo:
     def CreateSampleRecipe(self):
 
         task_list = [
-                {"task_type": 'text', "task_content": "1,2,3", "task_id": 0},
-                {"task_type": 'text', "task_content": '4,5,6', "task_id": 1},
-                {"task_type": "other", "task_content": "7, 8, 9", "task_id": 2}
+                {"task_type": 'text', "task_content": "1,2,3"},
+                {"task_type": 'text', "task_content": '4,5,6'},
+                {"task_type": "other", "task_content": "7, 8, 9"}
             ]
         return self.CreateRecipe(task_list)
 
