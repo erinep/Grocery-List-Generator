@@ -78,6 +78,13 @@ class MyMongo:
 
         return { "response": all_data_ids}
 
+    def DeleteRecipe(self, id):
+        response = self.collection.delete_one({"_id": ObjectId(id)})
+        return {
+            "recipe_id": id,
+            "acknowledged": response.acknowledged,
+            "deleted_count": response.deleted_count
+        }
 
     def GetRecipe(self, id):
 
@@ -86,7 +93,7 @@ class MyMongo:
             response = self.collection.find_one({"_id": obj})
             if (response):
                 response["_id"] = str(response["_id"])
-            return { "response": response}
+            return response
         except:
             return { "response": None}
 
@@ -96,7 +103,6 @@ class MyMongo:
             { 
                 "$set": {
                     "task_list": task_list,
-                    "task_index": len(task_list) - 1
                 }
             }
         )

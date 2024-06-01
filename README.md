@@ -49,10 +49,25 @@ Recipes API server.
 ### [Get] /api/create-sample-recipe
     - adds sample recipe document to database. 
 
-    returns: {
+    return {
         "acknowledged": true | false,
         "recipe_id": int
     }
+
+### [Post] /api/delete/recipe
+    - deletes a recipe
+    body: {
+        "recipe_id": int
+    }
+    return 200 OK {
+        "recipe_id": str
+        "acknowledged": true | false,
+        "deleted_count": int
+    }
+    return 400 {
+        "error": str
+    }
+
 
 ### [Post] /api/create-recipe
     - insert a new recipe obj into the database
@@ -61,7 +76,7 @@ Recipes API server.
         "task_list": [...]
     }
 
-    returns: { 
+    return { 
         "acknowledged": true | false,
         "recipe_id": int
     }
@@ -74,7 +89,7 @@ Recipes API server.
         "task_list": [...]
     }
 
-    returns: { 
+    return { 
         "acknowledged": true | false,
         "recipe_id": int
     }

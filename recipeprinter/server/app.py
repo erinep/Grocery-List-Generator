@@ -3,7 +3,7 @@ import os
 import re
 
 # third party imports
-from flask import Flask, request, session, redirect
+from flask import Flask, request, session, redirect, jsonify
 
 # local imports
 from recipeprinter.database import MyMongo
@@ -31,6 +31,15 @@ def api_list_recipes():
         response = mongo.GetRecipeListIDs()
     return response
 
+@app.route("/api/delete/recipe", methods=["POST"])
+def api_delete_recipe():
+    with MyMongo() as mongo:
+        if 'id' in request.json:
+            return mongo.DeleteRecipe(request.json['id'])
+        else:
+            return {
+                "error": "missing 'id' parameter"
+            }, 400
 
 @app.route("/api/recipe/<id>")
 def api_recipe(id):
