@@ -48,7 +48,6 @@ class MyMongo:
 
         status = self.collection.insert_one({
             "task_list": my_list,
-            "task_index": len(my_list) - 1
         })
         print(status)
          
