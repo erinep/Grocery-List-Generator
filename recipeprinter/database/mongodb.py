@@ -4,24 +4,16 @@ from bson.objectid import ObjectId
 class MyMongo:
 
     def __init__(self):
-        self.host = 'mongodb'
+        # self.host = 'mongodb'
+        self.host = 'localhost'
         self.port = 27017
         self.db_name = 'testdb'
 
-
-    def __enter__(self):
+        # create Connection Pool
         self.client = pymongo.MongoClient(host=self.host, port=self.port)
         self.db = self.client[self.db_name]
-        
-        # Access your collection
-        collection_name = "testCollection"
-        self.collection = self.db[collection_name]
-
-        return self
-
-    def __exit__(self, exc_type, exc_valu, exc_tb):
-
-        print(exc_type)
+        self.recipes = self.db["recipeCollection"]
+        self.tasks = self.db["taskCollection"]
 
     def TestConnection(self):
         client = pymongo.MongoClient(host=self.host, port=self.port,
@@ -42,63 +34,77 @@ class MyMongo:
                 {"task_type": 'text', "task_content": '4,5,6'},
                 {"task_type": "other", "task_content": "7, 8, 9"}
             ]
-        return self.CreateRecipe(task_list)
+        return self.CreateRecipe('test_recipe', task_list)
 
-    def CreateRecipe(self, my_list):
+    def CreateRecipe(self, name, task_to_create):
 
-        status = self.collection.insert_one({
-            "task_list": my_list,
-        })
-        print(status)
+        task_status = self.tasks.insert_one({'task_list': task_to_create})
+        recipe_status = self.recipes.insert_one({"name": name, "task_id": task_status.inserted_id})
          
         return {
-            "acknowledged": status.acknowledged,
-            "recipe_id": str(status.inserted_id)
+            "recipe_created": recipe_status.acknowledged,
+            "tasks_created": task_status.acknowledged,
+            "recipe_id": str(recipe_status.inserted_id),
+            "tasks_id": str(task_status.inserted_id),
         }
     
-    def GetRecipeListFull(self):
+    def GetRecipeList(self):
 
         # Retrieve a list of objects
-        cur = self.collection.find({})
+        cur = self.recipes.find({})
         all_data = []
         for item in cur:
             item['_id'] = str(item['_id'])
+            item['task_id'] = str(item['task_id'])
             all_data.append(item)
 
         return { "response": all_data}
-    
-    def GetRecipeListIDs(self):
-
-        # Retrieve a list of objects
-        cur = self.collection.find({}, {'_id': 1})
-        all_data_ids = []
-        for item in cur:
-            all_data_ids.append(str(item['_id']))
-
-        return { "response": all_data_ids}
 
     def DeleteRecipe(self, id):
-        response = self.collection.delete_one({"_id": ObjectId(id)})
-        return {
-            "recipe_id": id,
-            "acknowledged": response.acknowledged,
-            "deleted_count": response.deleted_count
-        }
 
-    def GetRecipe(self, id):
+        my_recipe = self.recipes.find_one({"_id": ObjectId(id)})
+
+        if (my_recipe):
+            tasks_response = self.tasks.delete_one({"_id":  my_recipe['task_id']})
+            recipes_response = self.recipes.delete_one({"_id": ObjectId(id)})
+
+            return {
+                "recipe_deleted": recipes_response.acknowledged,
+                "tasks_deleted": tasks_response.acknowledged,
+                "recipes_deleted_count": recipes_response.deleted_count,
+                "tasks_deleted_count": tasks_response.deleted_count,
+            }
+
+        else: 
+            return {
+                "recipe_deleted": False,
+                "tasks_deleted": False,
+            }
+
+
+    def GetRecipe(self, id=None):
 
         try:
-            obj = ObjectId(id)
-            response = self.collection.find_one({"_id": obj})
-            if (response):
-                response["_id"] = str(response["_id"])
+
+            response = {}
+            
+            my_recipe = self.recipes.find_one({"_id": ObjectId(id)})
+            my_task = self.tasks.find_one({"_id": my_recipe['task_id']})
+            response['recipe_id'] = str(my_recipe['_id'])
+            response['recipe_name'] = my_recipe['name']
+            response['task_list'] = my_task["task_list"]
+
             return response
-        except:
+
+        except Exception as e:
+            print('An error has occured:', e)
             return { "response": None}
 
-    def UpdateRecipe(self, recipe_id, task_list):
-        result = self.collection.update_one(
-            {"_id": ObjectId(recipe_id)},
+    def UpdateRecipe(self, task_id, task_list):
+
+
+        update_result = self.tasks.update_one(
+            {"_id": task_id},
             { 
                 "$set": {
                     "task_list": task_list,
@@ -106,4 +112,4 @@ class MyMongo:
             }
         )
 
-        return { "acknowledged": result.acknowledged } 
+        return { "task_updated": update_result.acknowledged } 

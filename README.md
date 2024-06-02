@@ -15,29 +15,38 @@ Recipes API server.
 - install dependencies: `pip install -r requirements.txt`
 - launch dev server: `python -m flask --debug --app recipeprinter:app run`
 
+## Database Schema
+
+Recipes: {
+    _id: ObjectId
+    name: str
+    task_id: ObjectId
+}
+
+Tasks: {
+    _id: ObjectId,
+    task_list: [
+        {type: str, content:str }
+    ]
+}
+
 ## API Endpoints
 
 ### [Get] /api/test
     returns: {
-        "db_connected": True | False
+        "db_connected": bool
     }
 
 ### [Get] /api/recipes
     returns: {
-        "response": list of recipe _IDs
+        "response": list of recipes
     }
-
-
-### [Get] /api/recipes-full
-    returns: { 
-        "response": [List of recipe documents]
-    }
-
 
 ### [Get] /api/recipe/<id>
     returns: { 
         "response": {
-            "task_index": int,
+            "recipe_id": str
+            "recipe_name": str,
             "task_list": [
                 {task 1},
                 {task 2},
@@ -50,7 +59,9 @@ Recipes API server.
     - adds sample recipe document to database. 
 
     return {
-        "acknowledged": true | false,
+        "recipe_created": bool,
+        "tasks_created": bool,
+        "tasks_id": int,
         "recipe_id": int
     }
 
@@ -60,9 +71,10 @@ Recipes API server.
         "recipe_id": int
     }
     return 200 OK {
-        "recipe_id": str
-        "acknowledged": true | false,
-        "deleted_count": int
+        "recipe_deleted": bool,
+        "tasks_deleted": bool,
+        "recipes_deleted_count": int,
+        "tasks_deleted_count": int,
     }
     return 400 {
         "error": str
@@ -77,7 +89,9 @@ Recipes API server.
     }
 
     return { 
-        "acknowledged": true | false,
+        "recipe_created": bool,
+        "tasks_created": bool,
+        "tasks_id": int,
         "recipe_id": int
     }
 
@@ -90,6 +104,5 @@ Recipes API server.
     }
 
     return { 
-        "acknowledged": true | false,
-        "recipe_id": int
+        "task_updated": bool,
     }
