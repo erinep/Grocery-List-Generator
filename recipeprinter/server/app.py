@@ -19,16 +19,10 @@ app = Flask(__name__)
 def test():
     return MyMongo().TestConnection()
 
-@app.route("/api/recipes-full")
-def api_lit_recipes_full():
-    with MyMongo() as mongo:
-        response = mongo.GetRecipeListFull()
-    return response
-
 @app.route("/api/recipes")
 def api_list_recipes():
     with MyMongo() as mongo:
-        response = mongo.GetRecipeListIDs()
+        response = mongo.GetRecipeList()
     return response
 
 @app.route("/api/delete/recipe", methods=["POST"])
