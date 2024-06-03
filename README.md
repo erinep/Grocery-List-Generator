@@ -39,7 +39,10 @@ Tasks: {
 
 ### [Get] /api/recipes
     returns: {
-        "response": list of recipes
+        "response": [
+            {"name": str, "_id": str},
+            {"name": str, "_id": str},
+        ]
     }
 
 ### [Get] /api/recipe/<id>
