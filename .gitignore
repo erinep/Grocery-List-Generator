@@ -5,3 +5,5 @@ build/*
 recipeprinter.egg-info/*
 .env
 *.txt
+
+test/

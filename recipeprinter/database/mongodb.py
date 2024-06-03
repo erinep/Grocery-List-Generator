@@ -4,8 +4,8 @@ from bson.objectid import ObjectId
 class MyMongo:
 
     def __init__(self):
-        # self.host = 'mongodb'
-        self.host = 'localhost'
+        self.host = 'mongodb'
+        # self.host = 'localhost'
         self.port = 27017
         self.db_name = 'testdb'
 
@@ -91,6 +91,7 @@ class MyMongo:
             my_recipe = self.recipes.find_one({"_id": ObjectId(id)})
             my_task = self.tasks.find_one({"_id": my_recipe['task_id']})
             response['recipe_id'] = str(my_recipe['_id'])
+            response['task_id'] = str(my_recipe['task_id'])
             response['recipe_name'] = my_recipe['name']
             response['task_list'] = my_task["task_list"]
 
@@ -100,11 +101,10 @@ class MyMongo:
             print('An error has occured:', e)
             return { "response": None}
 
-    def UpdateRecipe(self, task_id, task_list):
-
+    def SetTaskList(self, task_id, task_list):
 
         update_result = self.tasks.update_one(
-            {"_id": task_id},
+            {"_id": ObjectId(task_id)},
             { 
                 "$set": {
                     "task_list": task_list,
